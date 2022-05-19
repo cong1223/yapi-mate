@@ -1,0 +1,149 @@
+{
+  "name": "yapi-mate",
+  "displayName": "yapi mate",
+  "publisher": "hlj",
+  "description": "",
+  "version": "0.0.9",
+  "engines": {
+    "vscode": "^1.61.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onView:yapi.view"
+  ],
+  "main": "./dist/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-trump/yapi-mate"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "yapi.refresh",
+        "title": "刷新接口",
+        "icon": {
+          "dark": "dist/assets/refresh-light.svg",
+          "light": "dist/assets/refresh-dark.svg"
+        }
+      },
+      {
+        "command": "yapi.logout",
+        "title": "退出登录"
+      },
+      {
+        "command": "yapi.github",
+        "title": "github",
+        "icon": {
+          "dark": "dist/assets/github-light.svg",
+          "light": "dist/assets/github-dark.svg"
+        }
+      },
+      {
+        "command": "yapi.fixall",
+        "title": "Yapi: 补充所有yapi接口类型"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "yapi-menu",
+          "title": "yapi mate",
+          "icon": "dist/assets/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "yapi-menu": [
+        {
+          "id": "yapi.view",
+          "name": "yapi-menu",
+          "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "yapi.refresh",
+          "when": "tree.view.show && view == yapi.view",
+          "group": "navigation"
+        },
+        {
+          "command": "yapi.github",
+          "when": "tree.view.show && view == yapi.view",
+          "group": "navigation"
+        },
+        {
+          "command": "yapi.logout",
+          "when": "tree.view.show && view == yapi.view"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "resourceLangId == typescript",
+          "command": "yapi.fixall",
+          "group": "yapi"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "%ext.config.title%",
+      "properties": {
+        "yapi.responseType": {
+          "type": "string",
+          "enum": [
+            "methodGeneric"
+          ],
+          "default": "methodGeneric",
+          "markdownDescription": "%ext.config.responseType%",
+          "scope": "resource"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package --devtool hidden-source-map && cd src/webview && yarn build --devtool hidden-source-map && cd .. && cd server && yarn build --devtool hidden-source-map",
+    "start": "yarn run package --watch",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "test-compile": "tsc -p ./",
+    "test-watch": "tsc -watch -p ./",
+    "pretest": "yarn run test-compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.61.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "^7.27.0",
+    "glob": "^7.1.7",
+    "mocha": "^8.4.0",
+    "ts-loader": "^9.2.2",
+    "typescript": "^4.3.2",
+    "vscode-test": "^1.5.2",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "axios": "^0.23.0",
+    "cheerio": "^1.0.0-rc.10",
+    "copy-webpack-plugin": "^10.0.0",
+    "dayjs": "^1.10.7",
+    "util": "^0.12.4",
+    "vsce": "^2.5.0",
+    "vscode-languageclient": "^7.0.0",
+    "vscode-languageserver": "^7.0.0",
+    "vscode-languageserver-textdocument": "^1.0.1"
+  }
+}
